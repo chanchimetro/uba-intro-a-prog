@@ -1,3 +1,5 @@
+import Test.HUnit
+
 --Ejercicio 1:
 longitud :: [t] -> Integer
 longitud [] = 0
@@ -47,7 +49,8 @@ enLosContactos n (c:cs) | n == fst c = True
                         | otherwise = enLosContactos n cs
 
 -- agregarContacto :: Contacto -> ContactosTel -> ContactosTel
--- agregarContacto 
+-- agregarContacto c cs | enLosContactos c cs = []
+--                      | otherwise = c:cs
 
 --Ejercicio 7:
 type Identificacion = Integer
@@ -56,3 +59,33 @@ type Estado = (Disponibilidad, Ubicacion)
 type Locker = (Identificacion, Estado)
 type MapaDeLockers = [Locker]
 type Disponibilidad = Bool
+
+--Guia Repaso:
+generarStock :: [String] -> [(String, Integer)]
+generarStock [] = []
+generarStock (x:xs) = (x, (cant x (x:xs))) : generarStock (quitarTodos x xs)
+
+cant :: String -> [String] -> Integer
+cant i [] = 0
+cant i (x:xs) | i == x = 1 + (cant i xs)
+              | otherwise = cant i xs
+
+quitarTodos :: (Eq t) => t -> [t] -> [t]
+quitarTodos i [] = []
+quitarTodos i (x:xs) | i == x = quitarTodos i xs
+                     | otherwise = x:quitarTodos i xs
+
+-- mismosElementos :: (Eq t) => [t] -> [t] -> Bool
+-- mismosElementos (x:[]) = True
+
+-- Casos de Test
+
+runTestGenStock = runTestTT testsGenStock
+
+testsGenStock = test [
+    " Casobase 1 : generarStock []" ~: (generarStock []) ~?= [] ,
+    " Caso Elementos Distintos : generarStock ['Manzana', 'Pera', 'Naranja']" ~: (generarStock ["Manzana", "Pera", "Naranja"]) ~?= [("Manzana",1),("Pera",1),("Naranja",1)],
+    " Caso Elementos Ordenados : generarStock ['Manzana', 'Manzana', 'Manzana', 'Pera', 'Naranja', 'Naranja']" ~: (generarStock ["Manzana", "Manzana", "Manzana", "Pera", "Naranja", "Naranja"]) ~?= [("Manzana",3),("Pera",1),("Naranja",2)],
+    " Caso Elementos Ordenados : generarStock ['Naranja', 'Manzana', 'Manzana', 'Pera', 'Manzana', 'Naranja']" ~: (generarStock ["Naranja", "Manzana", "Manzana", "Pera", "Manzana", "Naranja"]) ~?= [("Naranja",2),("Manzana",3),("Pera",1)]
+    ]
+      
