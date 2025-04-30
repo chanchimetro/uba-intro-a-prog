@@ -56,5 +56,5 @@ cantDigitos 0 = 0
 cantDigitos n = 1 + cantDigitos(div n 10)
 
 --ejercicio 8
-sumaDigitos :: Integer -> Integer
+--sumaDigitos :: Integer -> Integer
 --TERMINAR !!!
