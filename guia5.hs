@@ -174,10 +174,25 @@ generarStock (x:xs) = (x, (cant x (x:xs))) : generarStock (quitarTodos x xs)
 
 cant :: String -> [String] -> Integer
 cant i [] = 0
-cant i (x:xs) | i == x = 1 + (cant i xs)
+cant i (x:xs) | i == x = 1 + cant i xs
               | otherwise = cant i xs
 
--- mismosElementos :: (Eq t) => [t] -> [t] -> Bool
--- mismosElementos (x:[]) = True
+stockDeProducto :: [(String, Int)] -> String -> Int
+stockDeProducto [] _ = 0
+stockDeProducto (x:xs) y
+    | fst x == y = snd x
+    | otherwise = stockDeProducto xs y
 
-      
+dineroEnStock :: [(String, Int)] -> [(String, Float)] -> Float
+dineroEnStock [] _ = 0
+dineroEnStock _ [] = 0
+dineroEnStock (x:xs) (y:ys)
+    | fst x == fst y = fromIntegral (snd x) * snd y + dineroEnStock xs (y:ys)
+    | otherwise = dineroEnStock (x:xs) (ys++[y])
+
+aplicarOferta :: [(String, Int)] -> [(String, Float)] -> [(String,Float)]
+aplicarOferta [] _ = []
+aplicarOferta _ [] = []
+aplicarOferta (x:xs) (y:ys)
+    | fromIntegral (stockDeProducto (x:xs) (fst y)) > 10  = (fst y,snd y * 0.8): aplicarOferta (x:xs) ys
+    | otherwise = y : aplicarOferta (x:xs) ys
