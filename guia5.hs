@@ -168,9 +168,11 @@ ocuparLocker i (l:ls) | i == fst l = (fst l,(False,snd (snd l))):ls
                       | otherwise = l:ocuparLocker i ls
 
 --Guia Repaso:
+
+--Stock
 generarStock :: [String] -> [(String, Integer)]
 generarStock [] = []
-generarStock (x:xs) = (x, (cant x (x:xs))) : generarStock (quitarTodos x xs)
+generarStock (x:xs) = (x, cant x (x:xs)) : generarStock (quitarTodos x xs)
 
 cant :: String -> [String] -> Integer
 cant i [] = 0
@@ -196,3 +198,12 @@ aplicarOferta _ [] = []
 aplicarOferta (x:xs) (y:ys)
     | fromIntegral (stockDeProducto (x:xs) (fst y)) > 10  = (fst y,snd y * 0.8): aplicarOferta (x:xs) ys
     | otherwise = y : aplicarOferta (x:xs) ys
+
+--Sopa de numeros
+type Fila = [Int]
+type Tablero = [Fila]
+type Posicion = (Int, Int) --(fila, columna)
+type Camino = [Posicion]
+
+-- maximo :: Tablero -> Int
+-- maximo [f] = 
