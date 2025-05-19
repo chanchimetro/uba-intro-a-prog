@@ -82,3 +82,39 @@ def iguales_consecutivos(s: list[int]) -> int:
     return cont == 3
 
 #def vocales_distintas(s: list[int]) -> int:
+    
+
+
+#2
+def ceros_en_pos_pares(s: list[int]) -> list[int]:
+    for x in range(len(s)):
+        if s[x] % 2 == 0: s[x] = 0
+    return s
+
+def ceros_en_pos_pares2(s: list[int]) -> list[int]:
+    r = []
+    for x in s:
+        if x % 2 == 0:
+            r.append(0)
+        else: 
+            r.append(x)
+    return r
+
+def sin_vocales(s: str) -> str:
+    r=''
+    for x in s:
+        if x not in ['a','e','i','o','u']:
+            r+=x
+    return r
+
+def reemplaza_vocales(s: str) -> str:
+    r=''
+    for x in s:
+        if x in ['a','e','i','o','u']:
+            r+='_'
+        else:
+            r+=x
+    return r
+
+#da_vuelta_str esta hecho en la funcion revertir()
+
